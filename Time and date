@@ -1,0 +1,55 @@
+# -*- coding: utf-8 -*-
+"""
+Gonzalo Campos Ureste
+"""
+import time
+sec = time.time() + 3600 ###the 3600 is for gmt + 1
+days = (sec / 86400) + 365 ##putting 1969 as the start
+i = False
+years = 0
+while i == False:
+    days = days - 1461
+    years = years + 4
+    if days > 1461:
+        i = False
+    elif days == 1461:
+        years = years + 4
+        i = True
+    else:
+        tempyear = days // 365
+        temprest = days % 365
+        i = True
+
+marker = 0
+month = 1
+while i == True:
+    if marker == 0 and temprest > 31:
+        temprest = temprest - 31
+        month += 1
+        marker = 1
+    elif marker == 1 and month == 2 and temprest > 29 and tempyear >= 3:
+        temprest = temprest - 29
+        month += 1
+        marker = 0
+    elif marker == 1 and month == 2 and temprest > 28:
+        temprest = temprest - 28
+        month += 1
+        marker = 0
+    elif marker == 1 and temprest > 30:
+        temprest = temprest - 30
+        month += 1
+        marker = 0
+    else:
+        i = False
+        
+days = temprest // 1
+temphours = (temprest % 1) * 24
+hours = temphours // 1
+tempminutes = (temphours % 1) * 60
+minutes = tempminutes // 1
+seconds = (tempminutes % 1) * 60
+year = 1969 + years
+
+print("THE DATE IS " + str(int(year)) + "-" + str(int(month)) + "-" + str(int(days)) + " " + str(int(hours)) + ":" + str(int(minutes)) + ":" + str(int(seconds)) + " GMT")
+print("THE TIME SINCE EPOCH IS: " + str(sec) + " SECONDS")
+
